@@ -13,8 +13,8 @@ class Vector2D(object):
   
   def __init__(self, x, y):
     """ Construct a new vector """
-    self.x = x 
-    self.y = y
+    self.x = float(x)
+    self.y = float(y)
 
 
   def __str__(self):
