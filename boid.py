@@ -23,8 +23,8 @@ class Boid(object):
         above
         """
         self.size = boidSize
-        self.maxspeed = boidSpeed
-        self.maxaccel = boidAccel
+        self.maxSpeed = boidSpeed
+        self.maxAccel = boidAccel
         #print self.position, self.velocity
     
     def decide(self, boids):
@@ -33,11 +33,45 @@ class Boid(object):
         based on location, velocity of nearby boids
         """
       
-        return #do nothing
+        sep = self.separate(boids)
+        self.acceleration = 4*sep
+        #return #do nothing
 
         #in this toy example, every boid just wants to circle
-        self.turn(90)
+        #self.turn(90)
 
+    def separate(self, boids):
+        """
+        apply acceleration forcing boid away from
+        other boids that are too close
+        """
+        mindist = 25 #desired minimum separtion
+
+        vDesired = Vector2D(0,0)
+        closeBoids = 0
+        for boid in boids:
+          dist = self.position.dist(boid.position)
+          if (dist > 0) and (dist < mindist):
+             #other boid is too close, move away
+             disp = self.position - boid.position
+             disp.normalize()
+             disp /= dist 
+             vDesired += disp
+             closeBoids = closeBoids + 1
+        
+        if closeBoids > 0: #average
+          vDesired /= closeBoids
+
+        if vDesired.mag() > 0:
+          vDesired.setMag(self.maxSpeed)
+          accel = vDesired - self.velocity
+          accel.limit(self.maxAccel)
+          return accel
+        else:
+          #no need to separate
+          return Vector2D(0,0)
+      
+        
     def turn(self, degrees):
         """ apply turning nudge by degrees """
         theta = radians(degrees)
@@ -52,7 +86,7 @@ class Boid(object):
        to zero before next time step
        """
        self.velocity += self.acceleration
-       self.velocity.limit(self.maxspeed)
+       self.velocity.limit(self.maxSpeed)
        self.position += self.velocity
        self.acceleration *= 0
        self.wrap() #keep boid on torroidal screen
