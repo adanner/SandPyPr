@@ -2,13 +2,18 @@ from random import random
 from math import *
 from vector2d import Vector2D
 
-boidSize = 4
+boidSize  = 4
+boidSpeed = 2
+boidAccel = 0.03
 
 class Boid(object):
     def __init__(self, x, y):
         self.position = Vector2D(x,y)
         self.velocity = Vector2D.random2D()
+        self.acceleration = Vector2D(0,0)
         self.size = boidSize
+        self.maxspeed = boidSpeed
+        self.maxaccel = boidAccel
     
     def wrap(self):
         x = self.position.x
@@ -33,6 +38,12 @@ class Boid(object):
                 vertex(-sz*2,-sz)
                 vertex(-sz*2, sz)
 
+    def decide(self, boids):
+        return 
+    
     def update(self):
-       self.position += self.velocity  
+       self.velocity += self.acceleration
+       self.velocity.limit(self.maxspeed)
+       self.position += self.velocity
+       self.acceleration *= 0
        self.wrap()  

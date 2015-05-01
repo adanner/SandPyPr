@@ -1,19 +1,34 @@
 from boid import Boid
 from flock import Flock
 
+"""
+Global Variables
+for Processing framework
+"""
 screenWidth = 800
 screenHeight = 600
-
-boids = Flock()
+allboids = Flock()
 
 def setup():
+    """
+    create initial screen
+    """
     size(screenWidth, screenHeight)
     
 def draw():
+    """
+    animate boids
+    """
     background(50)
-    boids.update()
-    boids.draw()
+    allboids.decide()
+    allboids.update()
+    allboids.draw()
     
 def mousePressed():
-    boids.add(Boid(mouseX, mouseY))
+    """
+    add new boid when user clicks mouse
+    at the mouse location with a random
+    unit velocity
+    """
+    allboids.add(Boid(mouseX, mouseY))
     

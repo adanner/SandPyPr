@@ -2,29 +2,30 @@ from math import *
 from random import *
 
 class Vector2D(object):
-
+  """
+  This class represents a 2D pair of floats.
+  This pair could either be interpreted as a
+  mathematical vector describing the components 
+  of a magnitude and direction or it could 
+  describe the coordinates of a point location in
+  an affine space
+  """  
+  
   def __init__(self, x, y):
+    """ Construct a new vector """
     self.x = x 
     self.y = y
 
-  @staticmethod
-  def random2D():
-    """
-    return a new random 2D unit vector
-    """
-    return Vector2D.fromAngle(2*pi*random())
-
-  @staticmethod
-  def fromAngle(theta):
-    """
-    Make a unit vector from an angle in radians
-    """
-    return Vector2D(cos(theta), sin(theta))
 
   def __str__(self):
     """ print Vec2 in a nice way """
     return "(%.3f, %.3f)" % (self.x, self.y)
 
+  """ 
+  basic getters/setters, but feel free
+  to use v1.x and v1.y directly
+  """
+  
   def getX(self):
     return self.x
 
@@ -91,48 +92,6 @@ class Vector2D(object):
     """ 
     return self.__div__(a)
 
-
-
-  """
-  In place operatores +=, -=, *=, /=
-  """
-
-  def __iadd__(self, v):
-    """ 
-    in place vector addition
-    vec += v 
-    """
-    self.x = self.x + v.x
-    self.y = self.y + v.y
-    return self
-
-  def __isub__(self, v):
-    """ 
-    in place vector subtraction
-    vec -= v 
-    """
-    self.x = self.x - v.x
-    self.y = self.y - v.y
-    return self
-
-  def __imul__(self, a):
-    """
-    in place scalar multiplication
-    vec *= a
-    """
-    self.x = self.x*a
-    self.y = self.y*a
-    return self
-
-  def __idiv__(self, a):
-    """
-    in place scalar division
-    vec /= a
-    """
-    self.x = self.x/a
-    self.y = self.y/a
-    return self
-
   def dist(self, pt):
     """
     returns distance between vec and pt, treating 
@@ -183,7 +142,6 @@ class Vector2D(object):
     self.normalize()
     self *= length
 
-
   def heading(self):
     """
     Calculate the angle of rotation for this vector
@@ -217,6 +175,72 @@ class Vector2D(object):
     return acos(self.normalized().dot(v.normalized()))
 
 
+  """
+  In place operatores +=, -=, *=, /=
+  """
+
+  def __iadd__(self, v):
+    """ 
+    in place vector addition
+    vec += v 
+    """
+    self.x = self.x + v.x
+    self.y = self.y + v.y
+    return self
+
+  def __isub__(self, v):
+    """ 
+    in place vector subtraction
+    vec -= v 
+    """
+    self.x = self.x - v.x
+    self.y = self.y - v.y
+    return self
+
+  def __imul__(self, a):
+    """
+    in place scalar multiplication
+    vec *= a
+    """
+    self.x = self.x*a
+    self.y = self.y*a
+    return self
+
+  def __idiv__(self, a):
+    """
+    in place scalar division
+    vec /= a
+    """
+    self.x = self.x/a
+    self.y = self.y/a
+    return self
+
+  """
+  @staticmethod tells python that these methods will not make direct
+  use of self variables. They are methods of the class, not
+  a particular object of the class. They can be called using
+  
+   Vector2D.random2D()
+   
+   or 
+   
+   v1=Vector2D(0,0)
+   v1.random2D()
+  """
+  
+  @staticmethod
+  def random2D():
+    """
+    return a new random 2D unit vector
+    """
+    return Vector2D.fromAngle(2*pi*random())
+
+  @staticmethod
+  def fromAngle(theta):
+    """
+    Make a unit vector from an angle in radians
+    """
+    return Vector2D(cos(theta), sin(theta))
 
 
 def testVector2D():
