@@ -152,7 +152,12 @@ class Vector2D(object):
   def rotate(self, angle):
     """
     Rotate vector counter clockwise by angle
-    return newly rotated vector
+    return newly rotated vector, assuming
+    a right-handed coordinate system.
+    
+    In the processing window, 0,0 is in the upper left
+    and coordinate system is left-handed, so rotations
+    are clockwise
     """
     cs = cos(angle)
     sn = sin(angle)
@@ -176,7 +181,7 @@ class Vector2D(object):
 
 
   """
-  In place operatores +=, -=, *=, /=
+  In place operators +=, -=, *=, /=
   """
 
   def __iadd__(self, v):
@@ -280,6 +285,7 @@ def testVector2D():
   print degrees(v4.heading())
 
   v5 = v4.rotate(radians(90))
+  print v4, v5
   print degrees(v5.heading())
   print v5
   print degrees(v4.angleBetween(v5))
