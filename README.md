@@ -13,4 +13,4 @@ References
 * [Python Processing Guide](http://carrot.whitman.edu/Thinkcspy/processing.html)
 * [Autonoumous Agents](http://natureofcode.com/book/chapter-6-autonomous-agents/)
 * [Flocking](https://processing.org/examples/flocking.html) This version uses Java and PVector
-* [PVector](https://processing.org/reference/PVector.html) Vector2D is a python-friendly impementation of PVector
+* [PVector](https://processing.org/reference/PVector.html) Vector2D is a python-friendly implementation of PVector
