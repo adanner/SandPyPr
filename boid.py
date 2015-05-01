@@ -33,12 +33,17 @@ class Boid(object):
         based on location, velocity of nearby boids
         """
       
-        return
+        return #do nothing
 
         #in this toy example, every boid just wants to circle
-        theta = radians(90)
+        self.turn(90)
+
+    def turn(self, degrees):
+        """ apply turning nudge by degrees """
+        theta = radians(degrees)
         self.acceleration = self.velocity.rotate(theta)
         self.acceleration.limit(self.maxaccel)
+
     
     def update(self):
        """
