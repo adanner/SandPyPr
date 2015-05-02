@@ -14,6 +14,8 @@ def setup():
     create initial screen
     """
     size(screenWidth, screenHeight)
+    for i in range(20):
+        allboids.add(Boid(screenWidth/2,screenHeight/2))
     
 def draw():
     """

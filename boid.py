@@ -2,7 +2,7 @@ from random import random
 from math import *
 from vector2d import Vector2D
 
-boidSize  = 4
+boidSize  = 2
 boidSpeed = 2
 boidAccel = 0.03
 
@@ -34,7 +34,9 @@ class Boid(object):
         """
       
         sep = self.separate(boids)
-        self.acceleration = 4*sep
+        coh = self.cohesion(boids)
+        ali = self.align(boids)
+        self.acceleration = 1.5*sep + 0.5*coh + 1*ali
         #return #do nothing
 
         #in this toy example, every boid just wants to circle
@@ -70,13 +72,70 @@ class Boid(object):
         else:
           #no need to separate
           return Vector2D(0,0)
-      
+ 
+    def cohesion(self, boids):
+        """
+        apply acceleration forcing boid towards 
+        center of other nearby boids
+        """
+        neighborhood = 50 #radius of local neighborhood
+
+        posSum = Vector2D(0,0)
+        closeBoids = 0
+        for boid in boids:
+          dist = self.position.dist(boid.position)
+          if (dist > 0) and (dist < neighborhood):
+             #this boid is a neighbore, average location
+             posSum += boid.position
+             closeBoids = closeBoids + 1
         
+        if closeBoids > 0: #average location, steer there
+          return self.seek(posSum/closeBoids)
+        else: #no one nearby, no cohesion
+          return Vector2D(0,0)     
+    
+    def align(self, boids):
+        """
+        apply acceleration forcing boid to 
+        align with direction of other nearby boids
+        """
+        neighborhood = 50 #radius of local neighborhood
+
+        dirSum = Vector2D(0,0)
+        closeBoids = 0
+        for boid in boids:
+          dist = self.position.dist(boid.position)
+          if (dist > 0) and (dist < neighborhood):
+             #this boid is a neighbore, average location
+             dirSum += boid.position
+             closeBoids = closeBoids + 1
+        
+        if closeBoids > 0: #average location, steer there
+          vDesired = dirSum / closeBoids
+          vDesired.setMag(self.maxSpeed)
+          accel = vDesired - self.velocity
+          accel.limit(self.maxAccel)
+          return accel  
+        else: #no one nearby, no alignment
+          return Vector2D(0,0)     
+ 
+    def seek(self, loc):
+      """
+      compute acceleration that steers current velocity
+      towards target loc
+      """
+      vDesired = loc - self.position
+      vDesired.setMag(self.maxSpeed)
+      accel = vDesired - self.velocity
+      accel.limit(self.maxAccel)
+      return accel
+
+
     def turn(self, degrees):
         """ apply turning nudge by degrees """
         theta = radians(degrees)
         self.acceleration = self.velocity.rotate(theta)
-        self.acceleration.limit(self.maxaccel)
+        self.acceleration.limit(self.maxAccel)
 
     
     def update(self):
@@ -121,7 +180,7 @@ class Boid(object):
         sz = self.size
         #hey, python's weird floating point mod is useful
         if  (x < -sz) or (x > width+sz):
-           self.position.x= self.position.x % width
+           self.position.x = self.position.x % width
         if  (y < -sz) or (y > height+sz):
            self.position.y = self.position.y % height
  
