@@ -32,11 +32,12 @@ class Boid(object):
         Have each boid decide how to modify its velocity,
         based on location, velocity of nearby boids
         """
-      
+        
         sep = self.separate(boids)
         coh = self.cohesion(boids)
         ali = self.align(boids)
         self.acceleration = 1.5*sep + 0.5*coh + 1*ali
+        self.acceleration.limit(self.maxAccel)
         #return #do nothing
 
         #in this toy example, every boid just wants to circle
@@ -110,7 +111,7 @@ class Boid(object):
              dirSum += boid.position
              closeBoids = closeBoids + 1
         
-        if closeBoids > 0: #average location, steer there
+        if closeBoids > 0: #average alignment
           vDesired = dirSum / closeBoids
           vDesired.setMag(self.maxSpeed)
           accel = vDesired - self.velocity
