@@ -14,3 +14,5 @@ References
 * [Autonoumous Agents](http://natureofcode.com/book/chapter-6-autonomous-agents/)
 * [Flocking](https://processing.org/examples/flocking.html) This version uses Java and PVector
 * [PVector](https://processing.org/reference/PVector.html) Vector2D is a python-friendly implementation of PVector
+* [Real Starlings in flight](https://youtu.be/QOGCSBh3kmM)
+* Processing -> Examples -> Topics -> Simulate -> Flocking
