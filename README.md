@@ -1,5 +1,5 @@
 # SandPyPr
-Python implementation of Boids using Processing
+Python implementation of Boids using Processing. Starting point code with boids moving in straight lines is provided in the master branch. By selecting the adanner branch, you can see a full solution with separation, cohesion, and aligment implemented
 
 Requirements
 ============
